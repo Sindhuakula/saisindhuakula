@@ -1,10 +1,102 @@
 
-{{ form}}
+{% load register_extras %}
 <html>
 <head>
+    <meta charset="utf-8">
+    <title>Login Page</title>
+    <style type="text/css">
+        body {
+            background-color: #f4f4f4;
+            color: #5a5656;
+            font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+            font-size: 16px;
+            line-height: 1.5em;
+        }
+        a { text-decoration: none; }
+        h1 { font-size: 1em; }
+        h1, p {
+            margin-bottom: 10px;
+        }
+        strong {
+            font-weight: bold;
+        }
+        .uppercase { text-transform: uppercase; }
 
+        /* ---------- LOGIN ---------- */
+        #login {
+            margin: 50px auto;
+            width: 300px;
+        }
+        form fieldset input[type="text"], input[type="password"] {
+            background-color: #e5e5e5;
+            border: none;
+            border-radius: 3px;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            color: #5a5656;
+            font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            height: 50px;
+            outline: none;
+            padding: 0px 10px;
+            width: 280px;
+            -webkit-appearance:none;
+        }
+        form fieldset input[type="submit"] {
+            background-color: #008dde;
+            border: none;
+            border-radius: 3px;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            color: #f4f4f4;
+            cursor: pointer;
+            font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+            height: 50px;
+            text-transform: uppercase;
+            width: 300px;
+            -webkit-appearance:none;
+        }
+        form fieldset a {
+            color: #5a5656;
+            font-size: 10px;
+        }
+        form fieldset a:hover { text-decoration: underline; }
+
+    </style>
 </head>
 <body>
-WELCOME
+<div id="login" >
+    <h1><strong>Welcome.</strong> Please login.</h1>
+          				<form class="form-horizontal well" id="registerForm" method="POST"
+          					enctype="multipart/form-data" action="{% url 'register_user' %}">
+          					<fieldset>
+          							{% csrf_token %} {% load tz %}
+          							{% for field in form.visible_fields %}
+          							<div id="div_{{ field.html_name }}"
+          									class="form-group{% if field.errors %} has-error{% endif%}">
+          									<label class="col-sm-4 control-label" for="{{ field.id_for_label }}">
+          											{{ field.label }}
+          									</label>
+          						<div class="col-md-6 cnt-inpt">
+          							{{ field|addcss:"form-control" }}
+          							<div class="text-muted pull-right">
+          													<small>{{ field.help_text }}</small>
+          											</div> <!-- form-group -->
+          											<span class="help-block">
+          													{% for error in field.errors %} {{error }} {% endfor %}
+          											</span> <!-- help-block -->
+          									</div> <!-- col-sm-4 -->
+          					</div>
+          					{% endfor %}
+          							{% for hidden in user_form.hidden_fields %} {{ hidden }} {% endfor %}
+
+          						<div class="form-group" style="text-align:center">
+          											 <a href="#tf-courses">
+														 <button type="submit" data-loading-text="Creating request..."
+																 class="btn btn-success solution_buttons">Create Request <i class="fa fa-angle-double-right"></i> </button></a>
+          							 </div> <!-- form-group -->
+          					 </fieldset>
+          				 </form>
+</div> <!-- end login -->
 </body>
 </html>

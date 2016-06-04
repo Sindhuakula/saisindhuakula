@@ -18,10 +18,19 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from register.views import Home
 from register import urls as reg_urls
-
+from views import anonymous_required
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
 url(r'^$', Home.as_view(), name='home'),
     url(r'^admin/',include(admin.site.urls)),
     url(r'^register/', include(reg_urls)),
+    url(r'^user/login/$',
+        anonymous_required(auth_views.login),
+        {'template_name': 'login_user.html'},
+        name='login_user'),
+    url(r'^user/logout/$',
+        auth_views.logout,
+        {'template_name': 'logout.html'},
+        name='logout'),
 ]

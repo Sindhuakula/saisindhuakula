@@ -5,7 +5,6 @@ from django.forms.models import ModelForm
 from django.contrib import admin
 
 
-
 user_widgets = {
     'user_first_name': forms.TextInput(attrs={'placeholder':_('First Name'), 'required': True}),
     'user_last_name': forms.TextInput(attrs={'placeholder':_('Last Name'),
@@ -71,65 +70,3 @@ class UserRegistrationForm(ModelForm):
         user.set_password(self.cleaned_data["password"])
         if commit: user.save()
         return user
-
-
-
-course_fields = ['course_name', 'course_bio', 'course_language', 'course_difficulty',
-                  'course_fees']
-course_widgets = {
-    'course_name'    : forms.TextInput(attrs={'placeholder':_('Course Name'), 'required': True}),
-    'course_fees' : forms.TextInput(attrs={'placeholder':_('Course fees'), 'required': True}),
-}
-
-class CourseRegistrationForm(ModelForm):
-    class Meta:
-        model = Course
-        fields = course_fields
-        widgets = course_widgets
-        exclude = ['course_user']
-
-
-course_module_fields = ['module_name', 'module_description', 'module_duration']
-course_module_widgets = {
-    'module_name'    : forms.TextInput(attrs={'placeholder':_('Module Name'), 'required': True}),
-
-    'module_duration' : forms.TextInput(attrs={'placeholder':_('Duration of module'), 'required': True}),
-}
-
-
-class ModuleAddForm(ModelForm):
-    class Meta:
-        model = CourseModules
-        fields = course_module_fields
-        widgets = course_module_widgets
-        exclude = ['course']
-
-
-
-solution_fields = ['solution_name', 'solution_platform','solution_contact_email', 'solution_contact_phone','solution_deadline','solution_budget','solution_description']
-solution_widgets = {
-    'solution_name'    : forms.TextInput(attrs={'placeholder':_('Solution Name'), 'required': True}),
-    'solution_contact_email'    :  forms.TextInput(attrs={'placeholder':_('Contact Email'),
-                                             'required': True}),
-    'solution_contact_phone' : forms.TextInput(attrs={'placeholder':_('Contact Number'), 'required': False}),
-
-    'solution_budget' : forms.TextInput(attrs={'placeholder':_('Expected Budget ( in INR )'), 'required': True}),
-    'solution_description'    :  forms.Textarea(attrs={'placeholder':_('Solution Description'),
-                                            'rows':4, 'cols':15, 'required': True}),
-}
-
-class SolutionCreateForm(ModelForm):
-
-    class Meta:
-        model = Solution
-        fields = solution_fields
-        widgets = solution_widgets
-
-
-progress_fields = ['completed','remarks']
-
-class ProgressForm(ModelForm):
-
-    class Meta:
-        fields = progress_fields
-        model = CourseProgress
